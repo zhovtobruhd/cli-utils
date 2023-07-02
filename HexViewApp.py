@@ -17,6 +17,7 @@ ASCII_WIN_WIDTH = 17
 
 BYTES_PER_ROW = 16
 
+
 class HexViewApp:
     def __init__(self, **kwargs):
         self.start_row = 0
@@ -33,7 +34,7 @@ class HexViewApp:
             raise ValueError('No data to work with') 
 
         with open(self.path, 'rb') as f:
-             self.data = f.read()
+            self.data = f.read()
         
         a, b, c = self._parse_data(self.data)
 
