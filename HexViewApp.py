@@ -98,8 +98,6 @@ class HexViewApp:
 
                 win1.addstr(0, 2, "Address")
                 win2.addstr(0, 1, "HEX")
-                win2.addstr(0, 5, str(lth))
-                win2.addstr(0, 10, str(BYTES_PER_ROW*3))
                 win3.addstr(0, 1, "ASCII")
 
                 for i, v in enumerate(
@@ -117,18 +115,14 @@ class HexViewApp:
                     
                     if lth <= BYTES_PER_ROW * 2 + 1:
                         srow = ' '
-                        win2.addstr(0, 20, '0')
                     elif lth <= BYTES_PER_ROW * 2 + BYTES_PER_ROW // 4:
                         srow = ''.join(v).strip()
-                        win2.addstr(0, 20, '1')
                     elif lth <= BYTES_PER_ROW * 3:
                         srow = ' '.join(
                             [''.join(v[i:i+4]) for i in range(0, len(v), 4)]
                         )
-                        win2.addstr(0, 20, '2')
                     else:
                         srow = ' '.join(v).strip()
-                        win2.addstr(0, 20, '3')
                     win2.addstr(i + 1, 0, ' ' + srow)
 
                 for i, v in enumerate(
