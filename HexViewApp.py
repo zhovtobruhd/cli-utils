@@ -44,8 +44,6 @@ class HexViewApp:
         stdscr.clear()
         stdscr.refresh()
 
-
-
         while True:
             
             if True:
@@ -57,7 +55,12 @@ class HexViewApp:
                 self.rows = height
 
                 win1 = curses.newwin(self.rows, ADDRESS_WIN_WIDTH, 0, 0)
-                win2 = curses.newwin(self.rows, self.columns - ADDRESS_WIN_WIDTH - ASCII_WIN_WIDTH, 0, ADDRESS_WIN_WIDTH)
+                win2 = curses.newwin(
+                    self.rows,
+                    self.columns - ADDRESS_WIN_WIDTH - ASCII_WIN_WIDTH,
+                    0,
+                    ADDRESS_WIN_WIDTH
+                )
                 win3 = curses.newwin(self.rows, ASCII_WIN_WIDTH, 0, self.columns - ASCII_WIN_WIDTH)
                 
                 lth = self.columns - ADDRESS_WIN_WIDTH - ASCII_WIN_WIDTH - 2
@@ -97,12 +100,16 @@ class HexViewApp:
                 win2.addstr(0, 1, "HEX")
                 win3.addstr(0, 1, "ASCII")
 
-                for i, v in enumerate(a[self.start_row:self.start_row + self.rows - 2]):
+                for i, v in enumerate(
+                    a[self.start_row:self.start_row + self.rows - 2]
+                ):
                     if i + 3 > self.rows:
                         break
                     win1.addstr(i + 1, 1, v)
 
-                for i, v in enumerate(b[self.start_row:self.start_row + self.rows - 2]):
+                for i, v in enumerate(
+                    b[self.start_row:self.start_row + self.rows - 2]
+                ):
                     if i + 3 > self.rows:
                         break
                     
@@ -111,13 +118,16 @@ class HexViewApp:
                     elif lth <= BYTES_PER_ROW * 2 + BYTES_PER_ROW // 4:
                         srow = ''.join(v).strip()
                     elif lth <= BYTES_PER_ROW * 4:
-                        srow = ' '.join([''.join(v[i:i+4]) for i in range(0, len(v), 4)])
+                        srow = ' '.join(
+                            [''.join(v[i:i+4]) for i in range(0, len(v), 4)]
+                        )
                     else:
                         srow = ' '.join(v).strip()
-                    win2.addstr(i + 1, 1, srow)
+                    win2.addstr(i + 1, 0, ' ' + srow)
 
-
-                for i, v in enumerate(c[self.start_row:self.start_row + self.rows - 2]):
+                for i, v in enumerate(
+                    c[self.start_row: self.start_row + self.rows - 2]
+                ):
                     if i + 3 > self.rows:
                         break
                     win3.addstr(i + 1, 0, v)
