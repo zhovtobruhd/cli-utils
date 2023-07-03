@@ -13,9 +13,8 @@ logger = logging.getLogger('two-wins')
 
 
 ADDRESS_WIN_WIDTH = 12
-ASCII_WIN_WIDTH = 18
-
 BYTES_PER_ROW = 16
+ASCII_WIN_WIDTH = BYTES_PER_ROW + 2
 
 
 class HexViewApp:
