@@ -40,6 +40,7 @@ class HexViewApp:
         self.start_row = 0
 
         self.a = a
+        self.b = b
         self.render = True 
         stdscr.clear()
         stdscr.refresh()
@@ -126,6 +127,9 @@ class HexViewApp:
             sys.exit(0)
         elif k == curses.KEY_RESIZE or k == curses.KEY_MAX:
             self.render = True
+        elif k == ord('d'):
+            with open('hexdump.txt', 'w', encoding='utf-8') as f:
+                f.write('\n'.join([' '.join(row) for row in self.b]))
 
         logger.debug('Pressed key %s', k)
 
