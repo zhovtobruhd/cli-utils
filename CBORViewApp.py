@@ -65,7 +65,7 @@ class CBORViewApp:
                 if i > 0:
                     print(',')
                 print(spacer * (level + 1) + f'{k:#010x} : ', end='')
-                if isinstance(v, (str, float)):
+                if isinstance(v, (str, bool, float)):
                     print(f'{v}', end='')
                 elif isinstance(v, int):
                     print(f'{v:#010x}', end='')
@@ -81,7 +81,7 @@ class CBORViewApp:
             for i, v in enumerate(obj):
                 if i > 0:
                     print(',')
-                if isinstance(v, (str, float)):
+                if isinstance(v, (str, bool, float)):
                     print(spacer * (level + 1) + f'{v}', end='')
                 elif isinstance(v, int):
                     print(f'{v:#010x}', end='')
@@ -93,7 +93,7 @@ class CBORViewApp:
 
         elif isinstance(obj, Tag):
             print(spacer * (level + 1) + f'TAG({obj.tag}) : ', end='')
-            if isinstance(obj.value, (str, float)):
+            if isinstance(obj.value, (str, bool, float)):
                 print(f'{obj.value}')
             elif isinstance(obj.value, int):
                 print(f'{obj.value:#010x}', end='')
