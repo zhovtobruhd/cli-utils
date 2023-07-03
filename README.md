@@ -1,5 +1,19 @@
 # CLI utils by zhovtobruhd
 
+## Requirements
+
+### Windows
+
+```bash
+pip install cbor click windows-curses
+```
+
+### Linux
+
+```bash
+pip install cbor click curses
+```
+
 ## Usage
 
 ### Hex View
