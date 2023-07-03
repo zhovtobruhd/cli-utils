@@ -19,11 +19,13 @@ def cmd_hexview(ctx, path):
 
 
 @cli.command('cborview', help='CBOR viewer')
-@click.option('-p', '--path', type=click.Path(), required=True, help='Path to file')
+@click.option('-p', '--path', type=click.Path(), required=True,
+              help='Path to file')
+@click.option('-s', '--skip-raw-bytes', type=click.INT, default=0)
 @click.pass_context
-def cmd_cborview(ctx, path):
+def cmd_cborview(ctx, path, skip_raw_bytes):
     app = CBORViewApp()
-    curses.wrapper(app.run, path=path)
+    curses.wrapper(app.run, path=path, skip_raw_bytes=skip_raw_bytes)
 
 
 if __name__ == '__main__':

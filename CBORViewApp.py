@@ -8,6 +8,7 @@ class CBORViewApp:
     def __init__(self, **kwargs):
         self.path = None
         self.raw = None
+        self.skip_raw_bytes = None
         self._data = None
 
     @property
@@ -16,6 +17,7 @@ class CBORViewApp:
 
     def run(self, stdscr, **kwargs):
         self.path = kwargs.get('path')
+        self.skip_raw_bytes = kwargs.get('skip_raw_bytes', 0)
 
         if self.path is None and self.data is None:
             raise ValueError('No data to work with')
@@ -31,7 +33,9 @@ class CBORViewApp:
         if self.raw is None:
             raise ValueError('Nothing to parse')
 
-        self._data = CBORViewApp._parse(cbor.loads(self.raw[4:]))
+        self._data = CBORViewApp._parse(
+            cbor.loads(self.raw[self.skip_raw_bytes:])
+        )
 
     @staticmethod
     def _parse(obj):
@@ -61,8 +65,10 @@ class CBORViewApp:
                 if i > 0:
                     print(',')
                 print(spacer * (level + 1) + f'{k:#010x} : ', end='')
-                if isinstance(v, (str, int, float)):
+                if isinstance(v, (str, float)):
                     print(f'{v}', end='')
+                elif isinstance(v, int):
+                    print(f'{v:#010x}', end='')
                 else:
                     print('')
                     CBORViewApp._print(v, level + 1, spacer)
@@ -75,8 +81,10 @@ class CBORViewApp:
             for i, v in enumerate(obj):
                 if i > 0:
                     print(',')
-                if isinstance(v, (str, int, float)):
+                if isinstance(v, (str, float)):
                     print(spacer * (level + 1) + f'{v}', end='')
+                elif isinstance(v, int):
+                    print(f'{v:#010x}', end='')
                 else:
                     CBORViewApp._print(v, level + 1, spacer)
                 if i > 0 and i + 1 == len(obj):
@@ -85,8 +93,10 @@ class CBORViewApp:
 
         elif isinstance(obj, Tag):
             print(spacer * (level + 1) + f'TAG({obj.tag}) : ', end='')
-            if isinstance(obj.value, (str, int, float)):
+            if isinstance(obj.value, (str, float)):
                 print(f'{obj.value}')
+            elif isinstance(obj.value, int):
+                print(f'{obj.value:#010x}', end='')
             else:
                 print('')
                 CBORViewApp._print(obj.value, level + 1, spacer)
