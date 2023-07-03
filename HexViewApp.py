@@ -13,7 +13,7 @@ logger = logging.getLogger('two-wins')
 
 
 ADDRESS_WIN_WIDTH = 12
-ASCII_WIN_WIDTH = 17
+ASCII_WIN_WIDTH = 18
 
 BYTES_PER_ROW = 16
 
@@ -64,42 +64,15 @@ class HexViewApp:
                 )
                 win3 = curses.newwin(self.rows, ASCII_WIN_WIDTH, 0, self.columns - ASCII_WIN_WIDTH)
                 
-                lth = self.columns - ADDRESS_WIN_WIDTH - ASCII_WIN_WIDTH - 1
+                lth = self.columns - ADDRESS_WIN_WIDTH - ASCII_WIN_WIDTH - 2
 
-                win1.border(
-                    curses.ACS_VLINE,
-                    curses.ACS_VLINE,
-                    curses.ACS_HLINE,
-                    curses.ACS_HLINE,
-                    curses.ACS_ULCORNER,
-                    curses.ACS_TTEE,
-                    curses.ACS_LLCORNER,
-                    curses.ACS_BTEE
-                )
-                win2.border(
-                    1,
-                    curses.ACS_VLINE,
-                    curses.ACS_HLINE,
-                    curses.ACS_HLINE,
-                    curses.ACS_HLINE,
-                    curses.ACS_TTEE,
-                    curses.ACS_HLINE,
-                    curses.ACS_BTEE
-                )
-                win3.border(
-                    1,
-                    curses.ACS_VLINE,
-                    curses.ACS_HLINE,
-                    curses.ACS_HLINE,
-                    curses.ACS_HLINE,
-                    curses.ACS_URCORNER,
-                    curses.ACS_HLINE,
-                    curses.ACS_LRCORNER
-                )
+                win1.border(0)
+                win2.border(0)
+                win3.border(0)
 
                 win1.addstr(0, 2, "Address")
-                win2.addstr(0, 1, "HEX")
-                win3.addstr(0, 1, "ASCII")
+                win2.addstr(0, 2, "HEX")
+                win3.addstr(0, 2, "ASCII")
 
                 for i, v in enumerate(
                     a[self.start_row:self.start_row + self.rows - 2]
@@ -124,14 +97,14 @@ class HexViewApp:
                         )
                     else:
                         srow = ' '.join(v).strip()
-                    win2.addstr(i + 1, 0, ' ' + srow)
+                    win2.addstr(i + 1, 1, ' ' + srow)
 
                 for i, v in enumerate(
                     c[self.start_row: self.start_row + self.rows - 2]
                 ):
                     if i + 3 > self.rows:
                         break
-                    win3.addstr(i + 1, 0, v)
+                    win3.addstr(i + 1, 1, v)
 
                 win1.refresh()
                 win2.refresh()
