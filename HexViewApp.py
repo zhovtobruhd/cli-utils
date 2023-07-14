@@ -1,7 +1,7 @@
 import curses
 import sys
 import time
-
+from intelhex import IntelHex
 import logging
 logging.basicConfig(filename='log.txt',
                     filemode='a',
@@ -32,8 +32,12 @@ class HexViewApp:
         if self.path is None and self.data is None:
             raise ValueError('No data to work with') 
 
-        with open(self.path, 'rb') as f:
-            self.data = f.read()
+        if self.path.endswith('.hex'):
+            ih = IntelHex(self.path)
+            self.data = ih.todict().values()
+        else:
+            with open(self.path, 'rb') as f:
+                self.data = f.read()
         
         a, b, c = self._parse_data(self.data)
 
@@ -116,7 +120,7 @@ class HexViewApp:
 
     def process_keys(self, stdscr):
         k = stdscr.getch()
-
+        logger.debug('Pressed key %s', k)
         if k == ord('s') or k == curses.KEY_DOWN:
             self.start_row = self.start_row if self.start_row + self.rows - 2 >= len(self.a) else self.start_row + 1
             self.render = True
@@ -125,13 +129,13 @@ class HexViewApp:
             self.render = True
         elif k == ord('q'):
             sys.exit(0)
-        elif k == curses.KEY_RESIZE or k == curses.KEY_MAX:
+        elif k in [curses.KEY_RESIZE, curses.KEY_MAX]:
             self.render = True
         elif k == ord('d'):
             with open('hexdump.txt', 'w', encoding='utf-8') as f:
                 f.write('\n'.join([' '.join(row) for row in self.b]))
 
-        logger.debug('Pressed key %s', k)
+
 
     @staticmethod
     def _parse_data(data, start_addr=0):
