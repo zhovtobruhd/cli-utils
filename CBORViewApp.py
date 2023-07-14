@@ -64,7 +64,12 @@ class CBORViewApp:
             for i, (k, v) in enumerate(obj.items()):
                 if i > 0:
                     print(',')
-                print(spacer * (level + 1) + f'{k:#010x} : ', end='')
+
+                if isinstance(k, str):
+                    print(spacer * (level + 1) + f'{k:<10} : ', end='')
+                else:
+                    print(spacer * (level + 1) + f'{k:#010x} : ', end='')
+
                 if isinstance(v, (str, bool, float)):
                     print(f'{v}', end='')
                 elif isinstance(v, int):
